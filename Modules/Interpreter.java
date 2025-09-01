@@ -3,6 +3,9 @@ package Modules;
 import Structures.BCP;
 import Instructions.*;
 import Instructions.Exceptions.SaidaException;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptEngine;
+import javax.script.ScriptException;
 
 /*
     Se fizer E/S durante uma quantum, bloqueado -> lista de bloqueados
@@ -51,11 +54,17 @@ public class Interpreter {
         }
 
         String currentInstruction = this.runningProcess.getReference(this.PC);
-        Instruction instruction = this.formatInstruction(currentInstruction);
 
-        instruction.run(this);
+        try {
+            Instruction instruction = this.formatInstruction(currentInstruction);
+            instruction.run(this);
+        }catch (Exception ex) {
+            throw ex;
+        }finally {
+            this.incrementPC();
+        }
 
-        this.incrementPC();
+        
     }
 
     public int getPC() {
@@ -82,11 +91,11 @@ public class Interpreter {
         this.Y = value;
     }
 
-    private Instruction formatInstruction(String instruction) {
+    private Instruction formatInstruction(String instruction) throws Exception {
         String[] setSplit = instruction.split("=");
         if (setSplit.length == 2) {
             // É uma instrução SET
-            return new SET(setSplit[0], Integer.parseInt(setSplit[1]));
+            return new SET(setSplit[0].trim(), Integer.parseInt(setSplit[1].trim()));
         } else {
             switch (setSplit[0]) {
                 case "SAIDA":

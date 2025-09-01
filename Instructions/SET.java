@@ -7,7 +7,7 @@ public class SET extends Instruction{
     public int value;
 
     public SET(String operand, int value) {
-        this.operand = operand;
+        this.operand = operand.trim();
         this.value = value;
     }
 
