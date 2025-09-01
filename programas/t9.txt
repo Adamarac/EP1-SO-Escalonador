@@ -1,0 +1,20 @@
+testeminusculo
+com
+com
+x = 9
+y = 10-9
+com	
+com
+es
+es
+com
+es
+com
+x=-99
+com
+com
+com
+com
+com
+es
+saida
