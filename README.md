@@ -10,10 +10,10 @@ Ele mostra como funciona o algoritmo **Round Robin**, com quantum configurável,
 
 ## Estrutura do projeto  
 
-Instructions/        # Instruções que os programas podem executar
-Modules/             # Escalonador, interpretador e logger
-Structures/          # Estruturas de dados (BCP, tabelas, filas)
-programas/           # Programas de teste e config do quantum
+Instructions/
+Modules/
+Structures/
+programas/
 
 
 **Escalonador** → controla quem roda, quando e por quanto tempo  
