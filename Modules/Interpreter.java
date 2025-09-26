@@ -2,10 +2,6 @@ package Modules;
 
 import Structures.BCP;
 import Instructions.*;
-import Instructions.Exceptions.SaidaException;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptEngine;
-import javax.script.ScriptException;
 
 /*
     Se fizer E/S durante uma quantum, bloqueado -> lista de bloqueados

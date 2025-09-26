@@ -1,6 +1,5 @@
 package Instructions;
 
-import Structures.BCP;
 import Modules.Interpreter;
 
 public class Instruction {

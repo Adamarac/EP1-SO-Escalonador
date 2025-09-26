@@ -6,12 +6,15 @@ public class BCP {
 
     private int PC; // Contador de Programa
 
-
     private State state = State.PRONTO;    // estado do processo
 
     // Registradores
     private int X = 0;
     private int Y = 0;
+
+    private Long ArrivalTime;
+    private Long CompletionTime;
+    private Long CPUBurstTime = 0L;
 
     // Memória de instruções
     private String[] reference = new String[22];   // nome do programa (indice 0) + 21 indexes de instrução
@@ -71,6 +74,30 @@ public class BCP {
 
     public int getY() {
         return Y;
+    }
+
+    public void setArrivalTime() {
+        this.ArrivalTime = System.currentTimeMillis();
+    }
+
+    public Long getArrivalTime() {
+        return this.ArrivalTime;
+    }
+
+    public void setCompletionTime() {
+        this.CompletionTime = System.currentTimeMillis();
+    }
+
+    public Long getCompletionTime() {
+        return this.CompletionTime;
+    }
+
+    public Long getCPUBurstTime() {
+        return this.CPUBurstTime;
+    }
+
+    public void updateCPUBurstTime(Long newBurst){
+        this.CPUBurstTime += newBurst;
     }
 
     public enum State {

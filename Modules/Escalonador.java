@@ -9,10 +9,9 @@ import Structures.ProcessTable;
 import Structures.ReadyList;
 import Structures.BlockedList;
 import Structures.BCP;
+
 import java.util.Collections;
 import Instructions.Exceptions.*;
-
-import Modules.Logger;
 
 public class Escalonador {
 
@@ -52,6 +51,7 @@ public class Escalonador {
             String quantumFile = "quantum.txt"; // quantum = qntd de instruções max por processo
 
             HashMap<String, BCP> programs = loadPrograms(programsDirectory, quantumFile);
+            StatisticsGenerator.setNumProcessos(programs.size());
 
             File quantum = new File(programsDirectory, quantumFile);
             int quantumValue = readQuantum(quantum); // n_com no enunciado
@@ -69,6 +69,15 @@ public class Escalonador {
 
             // Imprime o log
             escalonador.logger.printLog();
+
+            float MTT = StatisticsGenerator.calcularMeanTurnaroundTime();
+            float MWT = StatisticsGenerator.calcularMeanWaitingTime();
+            double mediaTrocas = StatisticsGenerator.getMediaTrocas();
+            double mediaIntrucoes = StatisticsGenerator.getMediaInstrucoes();
+            System.out.println("Mean Turnaround Time: " + MTT + " ms");
+            System.out.println("Mean Waiting Time: " + MWT + " ms");
+            System.out.println("Media de trocas: " + mediaTrocas);
+            System.out.println("Media de instrucoes: " + mediaIntrucoes);
 
             escalonador.logger.flush();
 
@@ -90,6 +99,7 @@ public class Escalonador {
     }
 
     private void start() {
+
         while (!processTable.isEmpty()) {
             // processa a lista de bloqueados
             this.processBlockedList();
@@ -107,10 +117,15 @@ public class Escalonador {
             // prepara o interpretador com o contexto do processo
             this.interpreter.setupContext(nextProcess);
 
+            long startTimeNewBurst = System.currentTimeMillis();
+            long finishTimeNewBurst;
+            long newBurst;
+
             // cada i é uma instrução rodada
             int i = 0;
 
             while (i < this.quantumValue) {
+                boolean finalizou = false;
                 try {
                     this.interpreter.run();
                 }
@@ -127,7 +142,9 @@ public class Escalonador {
 
                     this.scheduleNextProcess = false;
                     this.blockedList.addProcess(nextProcess);
+
                     break;
+
                 } catch (SaidaException saidaException) {
                     this.interpreter.clearContext();
 
@@ -140,10 +157,25 @@ public class Escalonador {
                     this.logger.addInstructionsUntilInterrupt(nextProcess.getPID(), i + 1);
 
                     this.scheduleNextProcess = false;
+
+                    nextProcess.setCompletionTime();
+                    finalizou = true;
+
                     this.processTable.removeProcess(nextProcess);
+
                     break;
                 } catch (Exception exception) {
                     break;
+                }
+                finally{
+                    finishTimeNewBurst = System.currentTimeMillis();
+                    newBurst = finishTimeNewBurst - startTimeNewBurst;
+                    nextProcess.updateCPUBurstTime(newBurst);
+
+                    if(finalizou){
+                        StatisticsGenerator.calcularTurnAroundTime(nextProcess);
+                        StatisticsGenerator.calcularWaitingTime(nextProcess);
+                    }
                 }
 
                 i++;
@@ -202,6 +234,7 @@ public class Escalonador {
             BCP bcp = entry;
             logger.logLoadProcess(bcp.getPID());
             this.readyList.addProcess(bcp);
+            bcp.setArrivalTime();
         }
     }
 
