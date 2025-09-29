@@ -12,9 +12,8 @@ public class BCP {
     private int X = 0;
     private int Y = 0;
 
-    private Long ArrivalTime;
-    private Long CompletionTime;
-    private Long CPUBurstTime = 0L;
+    private int TurnaroundTime = 0; // "tempo" (qt de intrucoes) que o processo levou desde que entrou até finalizar
+    private int tempoEmCPU = 0; // "tempo" (qt de instrucoes) que o processo ficou na CPU
 
     // Memória de instruções
     private String[] reference = new String[22];   // nome do programa (indice 0) + 21 indexes de instrução
@@ -76,28 +75,20 @@ public class BCP {
         return Y;
     }
 
-    public void setArrivalTime() {
-        this.ArrivalTime = System.currentTimeMillis();
+    public int getTempoEmCPU() {
+        return this.tempoEmCPU;
     }
 
-    public Long getArrivalTime() {
-        return this.ArrivalTime;
+    public void incrementTempoEmCPU(){
+        this.tempoEmCPU++;
     }
 
-    public void setCompletionTime() {
-        this.CompletionTime = System.currentTimeMillis();
+    public void setTurnaroundTime(int turnaround){
+        this.TurnaroundTime = turnaround;
     }
 
-    public Long getCompletionTime() {
-        return this.CompletionTime;
-    }
-
-    public Long getCPUBurstTime() {
-        return this.CPUBurstTime;
-    }
-
-    public void updateCPUBurstTime(Long newBurst){
-        this.CPUBurstTime += newBurst;
+    public int getTurnaroundTime(){
+        return this.TurnaroundTime;
     }
 
     public enum State {

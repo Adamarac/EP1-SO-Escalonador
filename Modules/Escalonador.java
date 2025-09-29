@@ -74,10 +74,10 @@ public class Escalonador {
             float MWT = StatisticsGenerator.calcularMeanWaitingTime();
             double mediaTrocas = StatisticsGenerator.getMediaTrocas();
             double mediaIntrucoes = StatisticsGenerator.getMediaInstrucoes();
-            System.out.println("Mean Turnaround Time: " + MTT + " ms");
-            System.out.println("Mean Waiting Time: " + MWT + " ms");
-            System.out.println("Media de trocas: " + mediaTrocas);
-            System.out.println("Media de instrucoes: " + mediaIntrucoes);
+            System.out.println("Mean Turnaround Time: " + MTT + " instrucoes");
+            System.out.println("Mean Waiting Time: " + MWT + " instrucoes");
+            System.out.println("Media de trocas por processo: " + mediaTrocas);
+            System.out.println("Media de instrucoes por quantum: " + mediaIntrucoes);
 
             escalonador.logger.flush();
 
@@ -117,15 +117,14 @@ public class Escalonador {
             // prepara o interpretador com o contexto do processo
             this.interpreter.setupContext(nextProcess);
 
-            long startTimeNewBurst = System.currentTimeMillis();
-            long finishTimeNewBurst;
-            long newBurst;
-
             // cada i é uma instrução rodada
             int i = 0;
 
             while (i < this.quantumValue) {
                 boolean finalizou = false;
+                StatisticsGenerator.incrementInstrAcc();
+                nextProcess.incrementTempoEmCPU();
+
                 try {
                     this.interpreter.run();
                 }
@@ -158,23 +157,19 @@ public class Escalonador {
 
                     this.scheduleNextProcess = false;
 
-                    nextProcess.setCompletionTime();
-                    finalizou = true;
-
                     this.processTable.removeProcess(nextProcess);
-
+                    nextProcess.setTurnaroundTime(StatisticsGenerator.getInstrAcc());
+                    
+                    finalizou = true;
                     break;
-                } catch (Exception exception) {
+                } 
+                catch (Exception exception) {
                     break;
                 }
                 finally{
-                    finishTimeNewBurst = System.currentTimeMillis();
-                    newBurst = finishTimeNewBurst - startTimeNewBurst;
-                    nextProcess.updateCPUBurstTime(newBurst);
-
                     if(finalizou){
-                        StatisticsGenerator.calcularTurnAroundTime(nextProcess);
-                        StatisticsGenerator.calcularWaitingTime(nextProcess);
+                        StatisticsGenerator.acumularTurnaroundTime(nextProcess);
+                        StatisticsGenerator.acumularWaitingTime(nextProcess);
                     }
                 }
 
@@ -234,7 +229,6 @@ public class Escalonador {
             BCP bcp = entry;
             logger.logLoadProcess(bcp.getPID());
             this.readyList.addProcess(bcp);
-            bcp.setArrivalTime();
         }
     }
 
