@@ -68,8 +68,8 @@ public class Escalonador {
             escalonador.start();
 
             // Imprime o log
-            // escalonador.logger.printLog();
-            // escalonador.logger.flush();
+            escalonador.logger.printLog();
+            escalonador.logger.flush();
 
             // Gera e adiciona estatisticas no .txt
             StatisticsGenerator statisticsGenerator = new StatisticsGenerator();

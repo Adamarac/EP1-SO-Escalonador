@@ -1,7 +1,7 @@
-TESTE-11
-E/S
-E/S
-E/S
+TESTE-29
+X=8
+COM
+X=9
 COM
 E/S
 E/S
@@ -9,12 +9,13 @@ E/S
 E/S
 COM
 E/S
+COM
+Y=9
 E/S
 E/S
 E/S
 COM
+Y=8
 COM
-E/S
-E/S
 E/S
 SAIDA

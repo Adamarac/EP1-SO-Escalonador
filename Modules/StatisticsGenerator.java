@@ -82,11 +82,11 @@ public class StatisticsGenerator {
         if (vazio1) {
             bw1.write(
                 "Quantum\t" +
-                "MTT\t" + 
-                "MWT\t" + 
-                "Trocas Total\t" +
-                "Media de trocas\t" +
-                "Media instr\t"
+                "Mean Turnaround Time\t" + 
+                "Mean Waiting Time\t" + 
+                "No total de trocas\t" +
+                "Media trocas por processo\t" +
+                "Media instr por quantum\t"
             ); 
             bw1.newLine();
         }

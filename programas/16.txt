@@ -1,0 +1,16 @@
+TESTE-16
+COM
+COM
+E/S
+COM
+COM
+E/S
+E/S
+X=6
+Y=6
+X=7
+Y=7
+COM
+E/S
+COM
+SAIDA
