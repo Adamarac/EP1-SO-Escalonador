@@ -1,0 +1,2 @@
+Quantum	MTT	MWT	Trocas Total	Media de trocas	Media instr	
+1	109.45	96.55	142	12.91	1.00	

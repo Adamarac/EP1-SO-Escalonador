@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Logger {
-    HashMap<String, Integer> interruptionscounter = new HashMap<>();
-    HashMap<String, QuantumInstructions> quantumInstructions = new HashMap<>();
+    public HashMap<String, Integer> interruptionscounter = new HashMap<>();
+    public HashMap<String, QuantumInstructions> quantumInstructions = new HashMap<>();
 
     private BufferedWriter bw; 
 
@@ -48,7 +48,6 @@ public class Logger {
         this.print("MÉDIA DE TROCAS: ");
         double media = (interruptionscounter.values().stream().mapToInt(Integer::intValue).average().orElse(0));
         this.print(media + "");
-        StatisticsGenerator.setMediaTrocas(media);
         this.print("\nMÉDIA DE INSTRUÇÕES: ");
 
         // soma das médias de instruções por quantum de cada processo dividido pelo número de processos
@@ -56,7 +55,6 @@ public class Logger {
             return a.average();
         }).average().orElse(0));
 
-        StatisticsGenerator.setMediaInstrucoes(media);
         this.print(media + "");
     }
 

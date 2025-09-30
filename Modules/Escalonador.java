@@ -37,7 +37,7 @@ public class Escalonador {
     }
 
     public Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     public int getQuantumValue() {
@@ -68,18 +68,12 @@ public class Escalonador {
             escalonador.start();
 
             // Imprime o log
-            escalonador.logger.printLog();
+            // escalonador.logger.printLog();
+            // escalonador.logger.flush();
 
-            float MTT = StatisticsGenerator.calcularMeanTurnaroundTime();
-            float MWT = StatisticsGenerator.calcularMeanWaitingTime();
-            double mediaTrocas = StatisticsGenerator.getMediaTrocas();
-            double mediaIntrucoes = StatisticsGenerator.getMediaInstrucoes();
-            System.out.println("Mean Turnaround Time: " + MTT + " instrucoes");
-            System.out.println("Mean Waiting Time: " + MWT + " instrucoes");
-            System.out.println("Media de trocas por processo: " + mediaTrocas);
-            System.out.println("Media de instrucoes por quantum: " + mediaIntrucoes);
-
-            escalonador.logger.flush();
+            // Gera e adiciona estatisticas no .txt
+            StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
+            statisticsGenerator.gerarEstatisticas(escalonador.logger, quantumValue);
 
         } catch (Exception e) {
             System.out.println("Arquivo não encontrado!");
