@@ -1,0 +1,16 @@
+TESTE-21
+E/S
+E/S
+E/S
+COM
+E/S
+COM
+X=8
+COM
+COM
+COM
+E/S
+Y=10
+X=2
+COM
+SAIDA

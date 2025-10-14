@@ -1,7 +1,6 @@
 package Structures;
 
 import java.util.HashMap;
-import java.util.Collection;
 import java.util.ArrayList;
 
 public class ProcessTable {

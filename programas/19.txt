@@ -1,0 +1,13 @@
+TESTE-19
+X=8
+COM
+COM
+COM
+COM
+E/S
+Y=10
+E/S
+X=2
+COM
+E/S
+SAIDA

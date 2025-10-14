@@ -1,0 +1,6 @@
+TESTE-22
+Y=99
+X=1
+COM
+E/S
+SAIDA

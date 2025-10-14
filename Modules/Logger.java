@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Logger {
-    HashMap<String, Integer> interruptionscounter = new HashMap<>();
-    HashMap<String, QuantumInstructions> quantumInstructions = new HashMap<>();
+    public HashMap<String, Integer> interruptionscounter = new HashMap<>();
+    public HashMap<String, QuantumInstructions> quantumInstructions = new HashMap<>();
 
     private BufferedWriter bw; 
 

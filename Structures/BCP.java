@@ -6,12 +6,14 @@ public class BCP {
 
     private int PC; // Contador de Programa
 
-
     private State state = State.PRONTO;    // estado do processo
 
     // Registradores
     private int X = 0;
     private int Y = 0;
+
+    private int TurnaroundTime = 0; // "tempo" (qt de intrucoes) que o processo levou desde que entrou até finalizar
+    private int tempoEmCPU = 0; // "tempo" (qt de instrucoes) que o processo ficou na CPU
 
     // Memória de instruções
     private String[] reference = new String[22];   // nome do programa (indice 0) + 21 indexes de instrução
@@ -71,6 +73,22 @@ public class BCP {
 
     public int getY() {
         return Y;
+    }
+
+    public int getTempoEmCPU() {
+        return this.tempoEmCPU;
+    }
+
+    public void incrementTempoEmCPU(){
+        this.tempoEmCPU++;
+    }
+
+    public void setTurnaroundTime(int turnaround){
+        this.TurnaroundTime = turnaround;
+    }
+
+    public int getTurnaroundTime(){
+        return this.TurnaroundTime;
     }
 
     public enum State {

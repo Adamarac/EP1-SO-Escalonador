@@ -9,10 +9,9 @@ import Structures.ProcessTable;
 import Structures.ReadyList;
 import Structures.BlockedList;
 import Structures.BCP;
+
 import java.util.Collections;
 import Instructions.Exceptions.*;
-
-import Modules.Logger;
 
 public class Escalonador {
 
@@ -38,7 +37,7 @@ public class Escalonador {
     }
 
     public Logger getLogger() {
-        return this.logger;
+        return logger;
     }
 
     public int getQuantumValue() {
@@ -52,6 +51,7 @@ public class Escalonador {
             String quantumFile = "quantum.txt"; // quantum = qntd de instruções max por processo
 
             HashMap<String, BCP> programs = loadPrograms(programsDirectory, quantumFile);
+            StatisticsGenerator.setNumProcessos(programs.size());
 
             File quantum = new File(programsDirectory, quantumFile);
             int quantumValue = readQuantum(quantum); // n_com no enunciado
@@ -69,8 +69,11 @@ public class Escalonador {
 
             // Imprime o log
             escalonador.logger.printLog();
-
             escalonador.logger.flush();
+
+            // Gera e adiciona estatisticas no .txt
+            StatisticsGenerator statisticsGenerator = new StatisticsGenerator();
+            statisticsGenerator.gerarEstatisticas(escalonador.logger, quantumValue);
 
         } catch (Exception e) {
             System.out.println("Arquivo não encontrado!");
@@ -90,6 +93,7 @@ public class Escalonador {
     }
 
     private void start() {
+
         while (!processTable.isEmpty()) {
             // processa a lista de bloqueados
             this.processBlockedList();
@@ -111,6 +115,10 @@ public class Escalonador {
             int i = 0;
 
             while (i < this.quantumValue) {
+                boolean finalizou = false;
+                StatisticsGenerator.incrementInstrAcc();
+                nextProcess.incrementTempoEmCPU();
+
                 try {
                     this.interpreter.run();
                 }
@@ -127,7 +135,9 @@ public class Escalonador {
 
                     this.scheduleNextProcess = false;
                     this.blockedList.addProcess(nextProcess);
+
                     break;
+
                 } catch (SaidaException saidaException) {
                     this.interpreter.clearContext();
 
@@ -140,10 +150,21 @@ public class Escalonador {
                     this.logger.addInstructionsUntilInterrupt(nextProcess.getPID(), i + 1);
 
                     this.scheduleNextProcess = false;
+
                     this.processTable.removeProcess(nextProcess);
+                    nextProcess.setTurnaroundTime(StatisticsGenerator.getInstrAcc());
+                    
+                    finalizou = true;
                     break;
-                } catch (Exception exception) {
+                } 
+                catch (Exception exception) {
                     break;
+                }
+                finally{
+                    if(finalizou){
+                        StatisticsGenerator.acumularTurnaroundTime(nextProcess);
+                        StatisticsGenerator.acumularWaitingTime(nextProcess);
+                    }
                 }
 
                 i++;
