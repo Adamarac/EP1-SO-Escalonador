@@ -99,6 +99,17 @@ TESTE-1 terminado. X=2. Y=10
 
 ---
 
+## Gráficos
+
+Discussão no relatório em `docs/SO - Relatório EP1.pdf`.
+
+![Média trocas processos](docs/imgs/media_trocas_processo.png)
+![Tempo Médio Retorno](docs/imgs/tempo_medio_retorno.png)
+![Tempo Medio Espera](docs/imgs/tempo_medio_espera.png)
+![Média de Instruções por Quantum](docs/imgs/media_instr_quantum.png)
+
+---
+
 ## 👥 Sobre  
 
 Projeto desenvolvido por Alan Moura, Arthur Hernandes, Felipe Ferreira, Gabriel Luis e Isabella Morija como parte da disciplina de **Sistemas Operacionais (EACH-USP, 4º semestre)** para entender, de forma prática, como funciona o módulo de escalonamento de um SO.  
